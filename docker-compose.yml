@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  php:
+    build: ./docker/php
+    container_name: web
+    volumes:
+      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+      - ./src/www:/var/www/
+    ports:
+      - 8000:80
+  mysql:
+    image: mysql:5.7
+    container_name: db
+    volumes:
+      - ./docker/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=luchs_db
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+    ports:
+     - 3314:3306
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=root
+    links:
+      - mysql
+    ports:
+      - 4040:80
+    volumes:
+      - ./phpmyadmin/sessions:/sessions
