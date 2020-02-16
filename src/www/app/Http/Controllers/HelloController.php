@@ -24,6 +24,7 @@ class HelloController extends Controller
                     'mail' => 'sachico@happy',
                 ],
             ],
+            'message' => 'Hello!',
         ];
         return view('hello.index', $data);
     }
